@@ -3,7 +3,12 @@ import base64
 
 base64lookuptable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-def encodeData(keyinput,sizeOfEncoding):
+def encodeData(keyinput):
+	"""input:(class) string -> output:(calss) list
+	
+	Takes string as input and encodes it with base64 and converts the encoded string into 
+	numbers based on base64 rules
+	"""
 	if isinstance(keyinput,str)==True:
 		#process for the string
 		temp=str(keyinput)                                #i dont know why i am doing this
@@ -32,8 +37,9 @@ def decodeData(keyinput):
 		paddingLenght = 4-(len(temp)%4)
 		padding = "="*paddingLenght
 		temp += padding
-		print(temp)
-
+		temp = temp.encode()
+		temp = base64.b64decode(temp)
+		temp = temp.decode()
 	else:
 		raise Exception("invalid data type or invalid format entered")
 	return temp
@@ -44,7 +50,7 @@ def decodeData(keyinput):
 def test():
 	#simple naughty string test
 	string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
-	temp = encodeData(string1,10)
-	temp = str(temp)
-	print(decodeData(temp))
+	string2 = "aGVsbCBteSBuYW1lIGlzIF9f8J+Qm/CfkJsgMSBhR0Z6VDNkdVVISnZjR1Z5ZEhrPQ"
+	print(encodeData(string1))
+	print(decodeData(string2))
 test()
