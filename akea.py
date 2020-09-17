@@ -74,6 +74,8 @@ def test():
 	#simple naughty string test
 	string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
 	string2 = "YXBydGltdGlt"
+	print(permutations)
+	print(combinations)
 
 
 if __name__ == "__main__":
