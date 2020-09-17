@@ -60,22 +60,50 @@ permutations=np.genfromtxt("permutation.csv",delimiter=",",dtype=np.uint8)
 
 combinations=np.genfromtxt("combination.csv",delimiter=",",dtype=np.uint8)
 
+#this is called everytime before a key expansion is under process
+def verifyIntegrity():
+	status = False
+
+
+	return status
+
+
+#the main algorithm
+def keyexpander_subroutine2(parameter0):
+	
+	pass
+
+
+
 def keyexpander_subroutine1(parameter0):
-	
-	pass
+	if verifyIntegrity()==False:
+		raise Exception("internal IV data and other constants of Algorithm is tampered")
+	else :
+		keyexpander_subroutine2(parameter0)
+		
+	return expandedKey
 
 
 
-def keyexpander(keyinput):
-	
-	pass
+def keyexpander(keyinput=""):
+	if isinstance(keyinput,str)==True:
+		if len(keyinput)!=0:
+			encodedKey = encodeData(keyinput)
+			derivedKey = keyexpander_subroutine1(encodedKey)
+		else:
+			derivedKey = keyexpander_subroutine1(initialVector)
+
+	else:
+		raise Exception("invalid data type or invalid format entered")
 
 def test():
 	#simple naughty string test
 	string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
 	string2 = "YXBydGltdGlt"
-	print(permutations)
-	print(combinations)
+
+	#print(permutations)
+	#print(combinations)
+	#print(initialVector)
 
 
 if __name__ == "__main__":
