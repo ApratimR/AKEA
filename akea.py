@@ -13,7 +13,7 @@ def encodeData(keyinput):
 	"""
 	if isinstance(keyinput,str)==True:
 		#process for the string
-		temp=str(keyinput)                                #i dont know why i am doing this
+		temp=str(keyinput)
 		temp=temp.encode()
 		temp = base64.b64encode(temp)
 		temp=temp.decode()
@@ -35,7 +35,7 @@ def encodeData(keyinput):
 def decodeData(keyinput):
 	#work on converting the data back to str form number array
 	if isinstance(keyinput,str)==True:
-		temp = str(keyinput)        #i dont know why i am doing this but just sanity check
+		temp = str(keyinput)
 		paddingLenght = 4-(len(temp)%4)
 		padding = "="*paddingLenght
 		temp += padding
@@ -56,9 +56,11 @@ initialVector = [24,39, 3,63, 7,46,16, 3,
 				 12, 2,40,27,23,43,36,62,
 				 32,60,45, 4,17,11,21, 4]
 
-permutations=np.genfromtxt("permutation.csv",delimiter=",",dtype=np.uint8)
+permutations = np.genfromtxt("permutation.csv",delimiter=",",dtype=np.uint8)
 
-combinations=np.genfromtxt("combination.csv",delimiter=",",dtype=np.uint8)
+combinations = np.genfromtxt("combination.csv",delimiter=",",dtype=np.uint8)
+
+messups = np.genfromtxt("messup.csv",delimiter=",",dtype=np.uint8)
 
 #this is called everytime before a key expansion is under process
 def verifyIntegrity():
@@ -70,8 +72,9 @@ def verifyIntegrity():
 
 #the main algorithm
 def keyexpander_subroutine2(parameter0):
-	
-	pass
+	for _ in range(64-(len(parameter0)%64)):
+		for temp in parameter0:
+			pass
 
 
 
@@ -79,7 +82,7 @@ def keyexpander_subroutine1(parameter0):
 	if verifyIntegrity()==False:
 		raise Exception("internal IV data and other constants of Algorithm is tampered")
 	else :
-		keyexpander_subroutine2(parameter0)
+		expandedKey=keyexpander_subroutine2(parameter0)
 		
 	return expandedKey
 
@@ -95,6 +98,7 @@ def keyexpander(keyinput=""):
 
 	else:
 		raise Exception("invalid data type or invalid format entered")
+	return derivedKey
 
 def test():
 	#simple naughty string test
