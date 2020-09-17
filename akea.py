@@ -58,7 +58,7 @@ initialVector = [24,39, 3,63, 7,46,16, 3,
 
 permutations=np.genfromtxt("permutation.csv",delimiter=",",dtype=np.uint8)
 
-Combinations=np.genfromtxt("Combination.csv",delimiter=",",dtype=np.uint8)
+combinations=np.genfromtxt("combination.csv",delimiter=",",dtype=np.uint8)
 
 def keyexpander_subroutine1(parameter0):
 	
