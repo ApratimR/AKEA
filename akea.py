@@ -2,6 +2,7 @@
 
 import numpy as np
 import base64
+import copy
 
 base64lookuptable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
@@ -58,7 +59,7 @@ initialVector = [24,39, 3,63, 7,46,16, 3,
 
 permutations = np.genfromtxt("permutation.csv",delimiter=",",dtype=np.uint8)
 
-combinations = np.genfromtxt("combination.csv",delimiter=",",dtype=np.uint8)
+substitutions = np.genfromtxt("substitution.csv",delimiter=",",dtype=np.uint8)
 
 messups = np.genfromtxt("messup.csv",delimiter=",",dtype=np.uint8)
 
@@ -75,7 +76,7 @@ def keyexpander_subroutine2(parameter0):
 	for _ in range(64-(len(parameter0)%64)):
 		for temp in parameter0:
 			pass
-
+  
 
 
 def keyexpander_subroutine1(parameter0):
