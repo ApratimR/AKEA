@@ -1,5 +1,6 @@
 #NOTE delete test() later
 
+from itertools import combinations
 import numpy as np
 import base64
 import copy
@@ -134,23 +135,48 @@ def verifyIntegrity():
 	return status
 
 
-#the main algorithm
 def keyexpander_permutation(parameter0,key):
-	roundcounter = 0
-	for temp1 in parameter0:
-		
-		pass
-	return data
+	shadowbox = parameter0[:]
+	
+	#exception if length is wrong
+	if len(permutations)!=len(parameter0):
+		raise Exception("size data block input is wrong")
+
+	for temp1 in range(len(parameter0)):
+		shadowbox[temp1]= parameter0[permutations[key][temp1]]
+	return shadowbox
 
 
+def keyexpander_combination(parameter0,key):
+	shadowbox = parameter0[:]
+	
+	#exception if length is wrong
+	if len(substitutions)!=len(parameter0):
+		raise Exception("size data block input is wrong")
 
+	for temp1 in range(len(parameter0)):
+		shadowbox[temp1]= substitutions[key][parameter0[temp1]]
+	return shadowbox
+
+
+def keyexpander_messup(parameter0,key):
+	#exception if length is wrong
+	if len(messups)!=len(parameter0):
+		raise Exception("size data block input is wrong")
+
+	parameter0 = (parameter0 + messups[key])%64
+
+	return parameter0
+
+
+#the main algorithm
 def keyexpander_subroutine2(parameter0):
 	for _ in range(64-(len(parameter0)%64)):
 		for temp in parameter0:
 
 			#TODO start here now
 			pass
-  
+
 
 
 def keyexpander_subroutine1(parameter0):
