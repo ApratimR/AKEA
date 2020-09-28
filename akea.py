@@ -16,9 +16,9 @@ def encodeData(keyinput):
 	if isinstance(keyinput,str)==True:
 		#process for the string
 		temp=str(keyinput)
-		temp=temp.encode()
+		temp=temp.encode(encoding="UTF-8")
 		temp = base64.b64encode(temp)
-		temp=temp.decode()
+		temp=temp.decode(encoding="UTF-8")
 
 		#empty list to be appended on
 		convertedData = list()
@@ -41,9 +41,9 @@ def decodeData(keyinput):
 		paddingLenght = 4-(len(temp)%4)
 		padding = "="*paddingLenght
 		temp += padding
-		temp = temp.encode()
+		temp = temp.encode(encoding="UTF-8")
 		temp = base64.b64decode(temp)
-		temp = temp.decode()
+		temp = temp.decode(encoding="UTF-8")
 	else:
 		raise Exception("invalid data type or invalid format entered")
 	return temp
