@@ -34,6 +34,19 @@ def encodeData(keyinput):
 	return convertedData
 
 
+# def decodeData(keyinput):
+# 	#work on converting the data back to str form number array
+# 	if isinstance(keyinput,str)==True:
+# 		temp = str(keyinput)
+# 		paddingLenght = 4-(len(temp)%4)
+# 		padding = "="*paddingLenght
+# 		temp += padding
+# 		temp = temp.encode(encoding="UTF-8")
+# 		temp = base64.b64decode(temp)
+# 		temp = temp.decode(encoding="UTF-8")
+# 	else:
+# 		raise Exception("invalid data type or invalid format entered")
+# 	return temp
 def decodeData(keyinput):
 	#work on converting the data back to str form number array
 	if isinstance(keyinput,str)==True:
@@ -44,10 +57,21 @@ def decodeData(keyinput):
 		temp = temp.encode(encoding="UTF-8")
 		temp = base64.b64decode(temp)
 		temp = temp.decode(encoding="UTF-8")
+		return temp
+
+	elif isinstance(keyinput,list)==True:
+		try:
+			if min(keyinput)>=0 and max(keyinput)<=64:
+				tempString = ""
+				for temp in keyinput:
+					tempString += base64lookuptable[temp]
+				return(isinstance(tempString))
+			#else:
+			#	raise Exception("out of bound character entered")
+		except TypeError:
+			raise Exception("out of bound character entered")
 	else:
 		raise Exception("invalid data type or invalid format entered")
-	return temp
-
 
 initialVector = [24,39, 3,63, 7,46,16, 3,
 				 12,57,18,46,12,55,35,43,
@@ -205,7 +229,8 @@ def test():
 	#simple naughty string test
 	string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
 	string2 = "YXBydGltdGlt"
-	print(verifyIntegrity())
+	#print(verifyIntegrity())
+	print(decodeData([16, 23, 1, 50, 24, 23, 17, 41, 27, 16]))
 	#print(permutations)
 	#print(combinations)
 	#print(initialVector)
