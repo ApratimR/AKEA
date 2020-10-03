@@ -34,19 +34,6 @@ def encodeData(keyinput):
 	return convertedData
 
 
-# def decodeData(keyinput):
-# 	#work on converting the data back to str form number array
-# 	if isinstance(keyinput,str)==True:
-# 		temp = str(keyinput)
-# 		paddingLenght = 4-(len(temp)%4)
-# 		padding = "="*paddingLenght
-# 		temp += padding
-# 		temp = temp.encode(encoding="UTF-8")
-# 		temp = base64.b64decode(temp)
-# 		temp = temp.decode(encoding="UTF-8")
-# 	else:
-# 		raise Exception("invalid data type or invalid format entered")
-# 	return temp
 def decodeData(keyinput):
 	#work on converting the data back to str form number array
 	if isinstance(keyinput,str)==True:
@@ -57,21 +44,9 @@ def decodeData(keyinput):
 		temp = temp.encode(encoding="UTF-8")
 		temp = base64.b64decode(temp)
 		temp = temp.decode(encoding="UTF-8")
-		return temp
-
-	elif isinstance(keyinput,list)==True:
-		try:
-			if min(keyinput)>=0 and max(keyinput)<=64:
-				tempString = ""
-				for temp in keyinput:
-					tempString += base64lookuptable[temp]
-				return(isinstance(tempString))
-			#else:
-			#	raise Exception("out of bound character entered")
-		except TypeError:
-			raise Exception("out of bound character entered")
 	else:
 		raise Exception("invalid data type or invalid format entered")
+	return temp
 
 initialVector = [24,39, 3,63, 7,46,16, 3,
 				 12,57,18,46,12,55,35,43,
@@ -88,18 +63,12 @@ substitutions = np.genfromtxt("substitution.csv",delimiter=",",dtype=np.uint8)
 
 messups = np.genfromtxt("messup.csv",delimiter=",",dtype=np.uint8)
 
-verifyValueForPermutation = (46, 57, 60, 40, 38, 62, 18, 14, 18, 37, 6, 9, 62, 23, 45, 21,
- 3, 55, 32, 15, 3, 45, 54, 8, 40, 10, 28, 12, 46, 56, 39, 60, 4, 50, 11, 35, 41, 41, 16, 
- 17, 55, 0, 29, 3, 27, 53, 2, 25, 61, 43, 36, 12, 22, 24, 4, 63, 60, 7, 0, 15, 2, 43, 15, 12)
+verifyValueForPermutation = (46,57,60,40,38,62,18,14,18,37,6,9,62,23,45,21,3,55,32,15,3,45,54,8,40,10,28,12,46,56,39,60,4,50,11,35,41,41,16,17,55,0,29,3,27,53,2,25,61,43,36,12,22,24,4,63,60,7,0,15,2,43,15,12)
 
-verifyValueForSubstitution = (22, 61, 56, 42, 47, 45, 41, 56, 35, 43, 58, 45, 35, 20, 17, 
-19, 52, 21, 5, 46, 27, 55, 59, 52, 18, 62, 30, 3, 36, 48, 54, 1, 26, 52, 59, 34, 20, 56, 
-58, 40, 51, 7, 53, 27, 12, 11, 13, 3, 35, 34, 11, 15, 14, 19, 50, 36, 8, 59, 55, 2, 37, 33, 31, 2)
+verifyValueForSubstitution= (22,61,56,42,47,45,41,56,35,43,58,45,35,20,17,19,52,21,5,46,27,55,59,52,18,62,30,3,36,48,54,1,26,52,59,34,20,56,58,40,51,7,53,27,12,11,13,3,35,34,11,15,14,19,50,36,8,59,55,2,37,33,31,2)
 
 
-verifyValueForMessup = (2, 60, 22, 17, 23, 34, 7, 44, 29, 35, 20, 18, 8, 1, 34, 5, 22, 41,
- 61, 35, 33, 30, 18, 25, 23, 33, 35, 61, 44, 14, 45, 27, 12, 48, 53, 24, 61, 50, 47, 6, 9,
-15, 21, 41, 28, 19, 17, 44, 47, 24, 55, 30, 39, 34, 25, 41, 47, 24, 55, 30, 39, 34, 25, 41)
+verifyValueForMessup= (2, 60, 22, 17, 23, 34, 7, 44, 29, 35, 20, 18, 8, 1, 34, 5, 22, 41, 61, 35, 33, 30, 18, 25, 23, 33, 35, 61, 44, 14, 45, 27, 12, 48, 53, 24, 61, 50, 47, 6, 9, 15, 21, 41, 28, 19, 17, 44, 47, 24, 55, 30, 39, 34, 25, 41, 47, 24, 55, 30, 39, 34, 25, 41)
 
 
 #this is called everytime before a key expansion is under process
@@ -114,7 +83,7 @@ def verifyIntegrity_subRoutine1():
 		for temp2 in range(64):
 			tempshadow[temp2] = temp[permutations[temp1][temp2]]
 		temp = tempshadow[:]
-	if(temp == verifyValueForPermutation):
+	if(temp == list(verifyValueForPermutation)):
 		status =True
 	else:
 		raise Exception("internal constants tampering")
@@ -129,7 +98,7 @@ def verifyIntegrity_subRoutine2():
 		for temp2 in range(64):
 			temp[temp2]= substitutions[temp1][(temp[temp2])]
 
-	if (temp == verifyValueForSubstitution):
+	if (temp == list(verifyValueForSubstitution)):
 		status = True
 	else:
 		raise Exception("internal constants tampering")
@@ -144,7 +113,7 @@ def verifyIntegrity_subRoutine3():
 	for temp in range(64):
 		temp = (temp + messups[temp][:])%64
 
-	if (list(temp) == verifyValueForMessup):
+	if (list(temp) == list(verifyValueForMessup)):
 		status = True
 	else:
 		raise Exception("internal constants tampering")
@@ -197,7 +166,7 @@ def keyexpander_messup(parameter0,key):
 def keyexpander_subroutine2(parameter0):
 	for _ in range(64-(len(parameter0)%64)):
 		for temp in parameter0:
-
+			
 			#TODO start here now
 			pass
 
@@ -229,8 +198,16 @@ def test():
 	#simple naughty string test
 	string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
 	string2 = "YXBydGltdGlt"
-	#print(verifyIntegrity())
-	print(decodeData([16, 23, 1, 50, 24, 23, 17, 41, 27, 16]))
+
+	print(verifyIntegrity())
+	
+	# generatedkey = keyexpander("secret key")
+	# print(generatedkey)
+	# generatedkey = keyexpander("a")#short key test
+	# print(generatedkey)
+
+	#print(decodeData(string2))
+	
 	#print(permutations)
 	#print(combinations)
 	#print(initialVector)
