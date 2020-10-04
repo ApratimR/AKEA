@@ -35,7 +35,6 @@ def encodeData(keyinput):
 
 
 def decodeData(keyinput):
-	#work on converting the data back to str form number array
 	if isinstance(keyinput,str)==True:
 		temp = str(keyinput)
 		paddingLenght = 4-(len(temp)%4)
@@ -164,8 +163,8 @@ def keyexpander_messup(parameter0,key):
 
 #the main algorithm
 def keyexpander_subroutine2(parameter0):
-	for _ in range(64-(len(parameter0)%64)):
-		for temp in parameter0:
+	for iteration1 in range((len(parameter0)//64)+1):
+		for iteration2 in parameter0[(64*(iteration1-1)):(64*iteration1)]:#block of 64
 			
 			#TODO start here now
 			pass
@@ -206,6 +205,7 @@ def test():
 	# generatedkey = keyexpander("a")#short key test
 	# print(generatedkey)
 
+	print(encodeData(string1))
 	#print(decodeData(string2))
 	
 	#print(permutations)
