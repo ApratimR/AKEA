@@ -162,11 +162,12 @@ def keyexpander_messup(parameter0,key):
 
 #the main algorithm
 def keyexpander_subroutine2(parameter0):
+	length_left = len(parameter0)
+	current_position = 0
 	for iteration1 in range((len(parameter0)//64)+1):
-	#after each block of 64 if it exists modfy the @parameter:permutation_constants_set substitution_constatnds_set messup_constatns_set
-		parameter0_start = 0 #"0" is a place holder
+		parameter0_start = (function*64)
 		parameter0_end = 1 #"1" is a place holder
-
+		
 		for iteration2 in parameter0[(64*(iteration1-1)):(64*iteration1)]:#block of 64
 			
 			
