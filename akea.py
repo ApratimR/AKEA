@@ -78,9 +78,9 @@ verifyValueForMessup = (2, 60, 22, 17, 23, 34, 7, 44, 29, 35, 20, 18, 8, 1, 34,
                         24, 55, 30, 39, 34, 25, 41)
 
 
-#this is called everytime before a key expansion is under process
+# this is called everytime before a key expansion is under process
 
-#permutation csv check
+# permutation csv check
 def verifyIntegrity_subRoutine1():
     status = False
     temp = initialVector[:]
@@ -90,19 +90,19 @@ def verifyIntegrity_subRoutine1():
             tempshadow[temp2] = temp[permutation_constants_set[temp1][temp2]]
         temp = tempshadow[:]
     if(temp == list(verifyValueForPermutation)):
-        status =True
+        status = True
     else:
         raise Exception("internal constants tampering")
     return status
 
 
-#substitution csv check
+# substitution csv check
 def verifyIntegrity_subRoutine2():
     status = False
     temp = initialVector[:]
     for temp1 in range(64):
         for temp2 in range(64):
-            temp[temp2]= substitution_constatnds_set[temp1][(temp[temp2])]
+            temp[temp2] = substitution_constatnds_set[temp1][(temp[temp2])]
     if (temp == list(verifyValueForSubstitution)):
         status = True
     else:
@@ -110,17 +110,18 @@ def verifyIntegrity_subRoutine2():
     return status
 
 
-#messup csv check
+# messup csv check
 def verifyIntegrity_subRoutine3():
     status = False
     temp = initialVector[:]
     for temp in range(64):
-        temp = (temp + messup_constatns_set[temp][:])%64
+        temp = (temp + messup_constatns_set[temp][:]) % 64
     if (list(temp) == list(verifyValueForMessup)):
         status = True
     else:
         raise Exception("internal constants tampering")
     return status
+
 
 def verifyIntegrity():
     status = True and verifyIntegrity_subRoutine1()
@@ -129,31 +130,31 @@ def verifyIntegrity():
     return status
 
 
-def keyexpander_permutation(parameter0,key):
+def keyexpander_permutation(parameter0, key):
     shadowbox = parameter0[:]
-    #exception if length is wrong
-    if len(permutation_constants_set)!=len(parameter0):
+    # exception if length is wrong
+    if len(permutation_constants_set) != len(parameter0):
         raise Exception("size data block input is wrong")
     for temp1 in range(len(parameter0)):
-        shadowbox[temp1]= parameter0[permutation_constants_set[key][temp1]]
+        shadowbox[temp1] = parameter0[permutation_constants_set[key][temp1]]
     return shadowbox
 
 
-def keyexpander_combination(parameter0,key):
+def keyexpander_combination(parameter0, key):
     shadowbox = parameter0[:]
-    #exception if length is wrong
-    if len(substitution_constatnds_set)!=len(parameter0):
+    # exception if length is wrong
+    if len(substitution_constatnds_set) != len(parameter0):
         raise Exception("size data block input is wrong")
     for temp1 in range(len(parameter0)):
-        shadowbox[temp1]= substitution_constatnds_set[key][parameter0[temp1]]
+        shadowbox[temp1] = substitution_constatnds_set[key][parameter0[temp1]]
     return shadowbox
 
 
-def keyexpander_messup(parameter0,key):
-    #exception if length is wrong
-    if len(messup_constatns_set)!=len(parameter0):
+def keyexpander_messup(parameter0, key):
+    # exception if length is wrong
+    if len(messup_constatns_set) != len(parameter0):
         raise Exception("size data block input is wrong")
-    parameter0 = (parameter0 + messup_constatns_set[key])%64
+    parameter0 = (parameter0 + messup_constatns_set[key]) % 64
     return parameter0
 
 
