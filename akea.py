@@ -4,7 +4,7 @@ import numpy as np
 import base64
 
 
-base64lookuptable = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
+base64lookuptable = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/")
 
 
 def encodeData(keyinput):
@@ -83,8 +83,8 @@ verifyValueForMessup = (2, 60, 22, 17, 23, 34, 7, 44, 29, 35, 20, 18, 8, 1, 34,
 # permutation csv check
 def verifyIntegrity_subRoutine1():
     status = False
-    temp = initialVector[:]
-    tempshadow = initialVector[:]
+    temp = list(initialVector)
+    tempshadow = list(initialVector)
     for temp1 in range(64):
         for temp2 in range(64):
             tempshadow[temp2] = temp[permutation_constants_set[temp1][temp2]]
@@ -99,7 +99,7 @@ def verifyIntegrity_subRoutine1():
 # substitution csv check
 def verifyIntegrity_subRoutine2():
     status = False
-    temp = initialVector[:]
+    temp = list(initialVector)
     for temp1 in range(64):
         for temp2 in range(64):
             temp[temp2] = substitution_constatnds_set[temp1][(temp[temp2])]
@@ -113,7 +113,7 @@ def verifyIntegrity_subRoutine2():
 # messup csv check
 def verifyIntegrity_subRoutine3():
     status = False
-    temp = initialVector[:]
+    temp = list(initialVector)
     for temp in range(64):
         temp = (temp + messup_constatns_set[temp][:]) % 64
     if (list(temp) == list(verifyValueForMessup)):
@@ -184,7 +184,7 @@ def keyexpander(keyinput=""):
             encodedKey = encodeData(keyinput)
             derivedKey = keyexpander_subroutine1(encodedKey)
         else:
-            derivedKey = keyexpander_subroutine1(initialVector)
+            derivedKey = keyexpander_subroutine1(list(initialVector))
     else:
         raise Exception("invalid data type or invalid format entered")
     return derivedKey
@@ -195,8 +195,8 @@ def test():
     string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
     string2 = "YXBydGltdGlt"
 
-
     print(verifyIntegrity())
+    # print(base64lookuptable)
 
     # generatedkey = keyexpander("secret key")
     # print(generatedkey)
