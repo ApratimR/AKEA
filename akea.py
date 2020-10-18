@@ -10,8 +10,8 @@ base64lookuptable = ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
 def encodeData(keyinput):
     """input:(class) string -> output:(calss) list
 
-    Takes string as input and encodes it with base64 and converts the encoded string into
-    numbers based on base64 rules
+    Takes string as input and encodes it with base64 and converts the encoded
+    string into numbers based on base64 rules
     """
     if isinstance(keyinput, str) is True:
         # process for the string
@@ -53,11 +53,11 @@ initialVector = (24, 39, 3, 63, 7, 46, 16, 3, 12, 57, 18, 46, 12, 55, 35, 43,
                  9, 15, 60, 2, 55, 3, 18, 8, 54, 10, 28, 0, 61, 40, 14, 41, 12,
                  2, 40, 27, 23, 43, 36, 62, 32, 60, 45, 4, 17, 11, 21, 4)
 
-permutation_constants_set = np.genfromtxt("permutation.csv",delimiter=",",dtype=np.uint8)
+permutation_constants_set = np.genfromtxt("permutation.csv", delimiter=",", dtype=np.uint8)
 
-substitution_constatnds_set = np.genfromtxt("substitution.csv",delimiter=",",dtype=np.uint8)
+substitution_constatnds_set = np.genfromtxt("substitution.csv", delimiter=",", dtype=np.uint8)
 
-messup_constatns_set = np.genfromtxt("messup.csv",delimiter=",",dtype=np.uint8)
+messup_constatns_set = np.genfromtxt("messup.csv", delimiter=",", dtype=np.uint8)
 
 verifyValueForPermutation = (46, 57, 60, 40, 38, 62, 18, 14, 18, 37, 6, 9, 62,
                              23, 45, 21, 3, 55, 32, 15, 3, 45, 54, 8, 40, 10,
@@ -157,7 +157,7 @@ def keyexpander_messup(parameter0,key):
     return parameter0
 
 
-#the main algorithm
+# the main algorithm
 def keyexpander_subroutine2(parameter0):
     length_left = len(parameter0)
     current_position = 0
@@ -165,23 +165,21 @@ def keyexpander_subroutine2(parameter0):
         parameter0_start = 1
         parameter0_end = 1 #"1" is a place holder
 
-        for iteration2 in parameter0[(64*(iteration1-1)):(64*iteration1)]:#block of 64
+        for iteration2 in parameter0[(64*(iteration1-1)):(64*iteration1)]:
             pass
 
 
-
 def keyexpander_subroutine1(parameter0):
-    if verifyIntegrity()==False:
+    if verifyIntegrity() is False:
         raise Exception("internal IV data and other constants of Algorithm is tampered")
-    else :
-        expandedKey=keyexpander_subroutine2(parameter0)
+    else:
+        expandedKey = keyexpander_subroutine2(parameter0)
     return expandedKey
 
 
-
 def keyexpander(keyinput=""):
-    if isinstance(keyinput,str)==True:
-        if len(keyinput)!=0:# if the length of key is 0 the default key is initial vector
+    if isinstance(keyinput, str) is True:
+        if len(keyinput) != 0:  # if the length of key is 0 the default key is initial vector
             encodedKey = encodeData(keyinput)
             derivedKey = keyexpander_subroutine1(encodedKey)
         else:
@@ -190,8 +188,9 @@ def keyexpander(keyinput=""):
         raise Exception("invalid data type or invalid format entered")
     return derivedKey
 
+
 def test():
-    #simple naughty string test
+    # simple naughty string test
     string1 = "hell my name is __🐛🐛 1 aGFzT3duUHJvcGVydHk="
     string2 = "YXBydGltdGlt"
 
@@ -203,12 +202,12 @@ def test():
     # generatedkey = keyexpander("a")#short key test
     # print(generatedkey)
 
-    #print(encodeData(string1))
-    #print(decodeData(string2))
+    # print(encodeData(string1))
+    # print(decodeData(string2))
 
-    #print(permutation_constants_set)
-    #print(combinations)
-    #print(initialVector)
+    # print(permutation_constants_set)
+    # print(combinations)
+    # print(initialVector)
 
 
 if __name__ == "__main__":
